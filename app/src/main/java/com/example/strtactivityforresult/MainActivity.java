@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.strtactivityforresult.pojo.Product;
+
 public class MainActivity extends AppCompatActivity {
 
     final int REQUEST_CODE = 12345;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(MainActivity.this, GroceriesActivity.class);
+
                         startActivityForResult(intent, REQUEST_CODE);
                     }
                 });

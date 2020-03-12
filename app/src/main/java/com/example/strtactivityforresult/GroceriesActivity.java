@@ -1,6 +1,7 @@
 package com.example.strtactivityforresult;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -21,6 +22,7 @@ public class GroceriesActivity extends AppCompatActivity {
 
     TextView productName;
     Button finishBtn;
+    DataManager dataManager = new DataManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,18 @@ public class GroceriesActivity extends AppCompatActivity {
         productName = findViewById(R.id.product_name_tv);
         finishBtn = findViewById(R.id.finish_btn);
 
+        RecyclerView groceriesList = findViewById(R.id.groceries_list_container);
+        groceriesList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+
+        //ArrayList<Product> allProductsList = new ArrayList<>();
+        final GroceriesAdapter adapter = new GroceriesAdapter(dataManager.allProducts);
+
+        groceriesList.setAdapter(adapter);
+
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataManager dataManager = new DataManager();
+
                 JSONObject object = new JSONObject();
                 try {
                     object.put("Selected", dataManager.selectedProduct);
@@ -49,5 +59,20 @@ public class GroceriesActivity extends AppCompatActivity {
             }
         });
 
+        Product sugar = new Product();
+        sugar.setName("Sugar");
+        dataManager.addProductToAllProducts(sugar);
+        Product milk = new Product();
+        milk.setName("Milk");
+        dataManager.addProductToAllProducts(milk);
+        Product bread = new Product();
+        bread.setName("Bread");
+        dataManager.addProductToAllProducts(bread);
+        Product flour = new Product();
+        flour.setName("Flour");
+        dataManager.addProductToAllProducts(flour);
+        Product salt = new Product();
+        salt.setName("Salt");
+        dataManager.addProductToAllProducts(salt);
     }
 }

@@ -47,8 +47,6 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.Groc
                 }
             }
         });
-
-
     }
 
     @Override
@@ -60,7 +58,6 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.Groc
         RecyclerView recyclerView;
         TextView productName;
         CheckBox checkBox;
-
 
         public GroceriesViewHolder(@NonNull View itemView) {
             super(itemView);

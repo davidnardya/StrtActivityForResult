@@ -27,4 +27,10 @@ public class DataManager {
     public void addProductToSelected(Product product){
         selectedProduct.add(product);
     }
+
+    public void addProductToAllProducts(Product product) {
+        allProducts.add(product);
+    }
+
+
 }
