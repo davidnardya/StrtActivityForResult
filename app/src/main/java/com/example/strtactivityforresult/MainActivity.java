@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 String productString = data.getStringExtra("list");
                 Gson gson = new Gson();
                 Product product = gson.fromJson(productString, Product.class);
-                DataManager.setSelectedProduct();
+                DataManager.setSelectedProduct(dataManager.selectedProduct);
             }
         }
     }
