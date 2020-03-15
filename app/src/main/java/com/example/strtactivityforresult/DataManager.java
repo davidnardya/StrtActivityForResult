@@ -24,11 +24,11 @@ public class DataManager {
         DataManager.allProducts = allProducts;
     }
 
-    public void addProductToSelected(Product product){
+    public static void addProductToSelected(Product product){
         selectedProduct.add(product);
     }
 
-    public void addProductToAllProducts(Product product) {
+    public static void addProductToAllProducts(Product product) {
         allProducts.add(product);
     }
 

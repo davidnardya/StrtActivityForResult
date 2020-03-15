@@ -34,16 +34,14 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.Groc
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final GroceriesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final GroceriesViewHolder holder, final int position) {
         Product item = productArrayList.get(position);
         holder.productName.setText(item.getName());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                DataManager dataManager = new DataManager();
-
                 if(isChecked){
-                    dataManager.addProductToSelected(new Product());
+                    DataManager.addProductToSelected(productArrayList.get(position));
                 }
             }
         });

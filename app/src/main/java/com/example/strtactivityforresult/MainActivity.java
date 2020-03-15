@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.example.strtactivityforresult.pojo.Product;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE = 12345;
 
     Button selectProductsBtn;
-    DataManager dataManager = new DataManager();
+    MainAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView selectedProductsList = findViewById(R.id.main_activity_container);
         selectedProductsList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
-        final MainAdapter adapter = new MainAdapter(dataManager.selectedProduct);
-
+         adapter = new MainAdapter(DataManager.selectedProduct);
         selectedProductsList.setAdapter(adapter);
 
         new Handler().postDelayed(new Runnable() {
@@ -57,10 +59,21 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             if(data != null){
+                DataManager.setSelectedProduct(new ArrayList<Product>());
                 String productString = data.getStringExtra("list");
-                Gson gson = new Gson();
-                Product product = gson.fromJson(productString, Product.class);
-                DataManager.setSelectedProduct(dataManager.selectedProduct);
+                try {
+                    JSONArray array = new JSONArray(productString);
+                    for (int i = 0; i < array.length(); i++) {
+                      Gson gson = new Gson();
+                      Product product = gson.fromJson(array.getString(i), Product.class);
+                      DataManager.addProductToSelected(product);
+                    }
+
+                    adapter.selectedProductsList = DataManager.selectedProduct;
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

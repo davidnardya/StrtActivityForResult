@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.strtactivityforresult.pojo.Product;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +24,6 @@ public class GroceriesActivity extends AppCompatActivity {
 
     TextView productName;
     Button finishBtn;
-    DataManager dataManager = new DataManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,43 +37,44 @@ public class GroceriesActivity extends AppCompatActivity {
         groceriesList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
         //ArrayList<Product> allProductsList = new ArrayList<>();
-        final GroceriesAdapter adapter = new GroceriesAdapter(dataManager.allProducts);
+        final GroceriesAdapter adapter = new GroceriesAdapter(DataManager.allProducts);
 
         groceriesList.setAdapter(adapter);
 
         finishBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                                         @Override
+                                         public void onClick(View v) {
+                                             JSONArray array = new JSONArray();
+                                             for (int i = 0; i < DataManager.selectedProduct.size(); i++) {
+                                                 Product product = DataManager.getSelectedProduct().get(i);
+                                                 String productObject = new Gson().toJson(product);
+                                                 array.put(productObject);
+                                             }
 
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("Selected", dataManager.selectedProduct);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                                             Intent intent = new Intent();
+                                             intent.putExtra("list", array.toString());
 
-                Intent intent = new Intent();
-                intent.putExtra("list", object.toString());
+                                             setResult(Activity.RESULT_OK, intent);
+                                             finish();
 
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-            }
-        });
+                                         }
+                                     }
+            );
 
         Product sugar = new Product();
         sugar.setName("Sugar");
-        dataManager.addProductToAllProducts(sugar);
+        DataManager.addProductToAllProducts(sugar);
         Product milk = new Product();
         milk.setName("Milk");
-        dataManager.addProductToAllProducts(milk);
+        DataManager.addProductToAllProducts(milk);
         Product bread = new Product();
         bread.setName("Bread");
-        dataManager.addProductToAllProducts(bread);
+        DataManager.addProductToAllProducts(bread);
         Product flour = new Product();
         flour.setName("Flour");
-        dataManager.addProductToAllProducts(flour);
+        DataManager.addProductToAllProducts(flour);
         Product salt = new Product();
         salt.setName("Salt");
-        dataManager.addProductToAllProducts(salt);
+        DataManager.addProductToAllProducts(salt);
     }
 }

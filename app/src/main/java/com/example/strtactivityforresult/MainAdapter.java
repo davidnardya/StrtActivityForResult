@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 
-    DataManager dataManager = new DataManager();
 
     ArrayList<Product> selectedProductsList;
 
